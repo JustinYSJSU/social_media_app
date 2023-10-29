@@ -4,6 +4,7 @@ const router = express.Router()
 const {Users} = require('../models') //instance of User mods
 const bcrypt = require("bcrypt")
 
+const {sign} = require("jsonwebtoken")
 //user router
 
 //user registration
@@ -27,16 +28,22 @@ router.post("/login", async(req, res) =>{
 
   //does not exist
   if(!user){
-    res.json("USER DOES NOT EXIST")
+    res.json({error: "USER DOES NOT EXIST"})
   }
 
   //does exist, compare inputted password to the "password" hash
   //in the MySQL database for this user
   bcrypt.compare(password, user.password).then( (match) => {
     if(!match){
-      res.json("WRONG PASSWORD")
+      res.json({error: "WRONG PASSWORD"})
     }
-   res.json("LOGGED IN")
+  
+   //creating a token that consists of the username and id of current user, with secret to protect the data
+   const accessToken = sign({username: user.username, id: user.id}, "importantsecret")
+
+   res.json(accessToken) //return token on login, store in session storage which will requrie the token to make requests
+   console.log("LOGGED IN")
+   console.log(accessToken)
   })
 })
 module.exports = router
