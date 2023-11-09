@@ -40,10 +40,7 @@ router.post("/login", async(req, res) =>{
   
    //creating a token that consists of the username and id of current user, with secret to protect the data
    const accessToken = sign({username: user.username, id: user.id}, "importantsecret")
-
    res.json(accessToken) //return token on login, store in session storage which will requrie the token to make requests
-   console.log("LOGGED IN")
-   console.log(accessToken)
   })
 })
 module.exports = router

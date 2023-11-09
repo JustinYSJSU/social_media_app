@@ -13,7 +13,7 @@ export const Login = () =>{
         } 
         else{
           sessionStorage.setItem("accessToken", response.data) //storing token in sessionStorage
-          console.log()
+          console.log(sessionStorage.getItem("accessToken"))
         }
       });
     };
