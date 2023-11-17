@@ -12,6 +12,10 @@ app.use("/posts", postRouter) //allows requests to be made to /posts
 
 const usersRouter = require('./routes/Users')
 app.use("/auth", usersRouter)
+
+const commentsRouter = require('./routes/Comments')
+app.use("/comments", commentsRouter)
+
 //when you start API, go over tables and check if they exist in db. 
 //If not, create the table
 db.sequelize.sync().then(() => {

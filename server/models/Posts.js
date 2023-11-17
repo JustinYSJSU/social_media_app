@@ -21,5 +21,12 @@ module.exports = (sequelize, DataTypes) =>{
         }
     }
     )
+    //"each post has many comments"
+    //"cascade" => delete post delete all associated comments
+    Posts.associate = (models) => {
+        Posts.hasMany(models.Comments, {
+            onDelete: "cascade"
+        })
+    }
     return Posts;
 }

@@ -24,4 +24,10 @@ router.post("/", validateToken, async (req, res) =>{
   await Posts.create(post) //add post into the database. must match Posts table types/names
 })
 
+router.get("/byID/:id", async (req, res) =>{
+  const id = req.params.id //get id from URL
+  const post = await Posts.findByPk(id) //find post by primary key id
+  res.json(post)
+})
+
 module.exports = router
