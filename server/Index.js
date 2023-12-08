@@ -1,6 +1,7 @@
 const express = require('express') //instance of express framework
 const app = express() //initialize app (api request, start server, etc)
 const cors = require('cors')
+
 app.use(express.json())
 app.use(cors())
 
@@ -16,7 +17,7 @@ app.use("/auth", usersRouter)
 const commentsRouter = require('./routes/Comments')
 app.use("/comments", commentsRouter)
 
-//when you start API, go over tables and check if they exist in db. 
+//when you start server, go over tables and check if they exist in db. 
 //If not, create the table
 db.sequelize.sync().then(() => {
     //listen on port, run anon function whenver server starts
@@ -24,5 +25,6 @@ db.sequelize.sync().then(() => {
         console.log("SERVER RUNNING PORT 3001")
     })
 })
+
 
 

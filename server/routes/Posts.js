@@ -4,7 +4,7 @@ const express = require('express') //for routing
 const router = express.Router()
 const {Posts} = require('../models') //instance of Post mods
 const {validateToken} = require('../middlewares/AuthMiddleware')
-
+const upload = require('../middlewares/UploadMiddleware')
 //posts router
 
 //return elements from table. gets posts to display. HTTP GET
@@ -14,14 +14,17 @@ router.get("/", async (req, res) =>{
 });
 
 //insert into database. HTTP POST
-router.post("/", validateToken, async (req, res) =>{
-  console.log("posting")
-  //receieve json data from frontend form (title, username, text)
-  const post = req.body //contains all sent data from frontend. access w/post.title, etc
-  const username = req.user.username
-  post.username = username
-  post.timestamp = Date(Date.now).toLocaleString()
-  await Posts.create(post) //add post into the database. must match Posts table types/names
+router.post("/", upload.single("image"), async (req, res) =>{
+ const post = req.body 
+ post.title = req.body.title
+ post.postText = req.body.postText
+ post.username = "user"
+ post.timestamp = Date(Date.now).toLocaleString()
+ if(req.file){
+  console.log(req.file.path)
+  post.imagePath = req.file.path
+ }
+ await Posts.create(post)
 })
 
 router.get("/byID/:id", async (req, res) =>{

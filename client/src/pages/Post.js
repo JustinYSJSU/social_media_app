@@ -1,17 +1,27 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import myImage from "../images/1700336904867.png"
 
 export const Post = () => {
    const {id} = useParams()
    const [postObject, setPostObject] = useState({})
    const [commentsObject, setCommentsObject] = useState([])
    const [commentText, setCommentText] = useState()
+   const [image, setImage] = useState()
 
    useEffect(() => {
     //diplaying all posts. access API from the backend. uses the GET from backend
     axios.get(`http://localhost:3001/posts/byID/${id}`).then((response) => {
     setPostObject(response.data)
+    if(response.data.imagePath){
+      const path = response.data.imagePath
+      const indexOfI = path.indexOf("images")
+      const pathSlash = path.substring(indexOfI).replace(/\\/g, "/")
+      console.log(pathSlash)
+      console.log(myImage)
+      
+    }
 })
 }, [])
 
@@ -46,7 +56,6 @@ export const Post = () => {
      {postObject.postText}
      {postObject.username}
      {postObject.timestamp}
-
      <div> Comments</div> 
      {commentsObject.map( (value, key) => {
       return( 

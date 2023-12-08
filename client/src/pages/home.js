@@ -8,6 +8,11 @@ export const Home = () => {
     const [listOfPosts, setListOfPosts] = useState([])
     const navigate = useNavigate()
 
+    const logout = () =>{
+        localStorage.removeItem("accessToken")
+        alert("You have been logged out")
+    }
+
     useEffect(() => {
         //diplaying all posts. access API from the backend. uses the GET from backend
         axios.get("http://localhost:3001/posts").then((response) => {
@@ -19,6 +24,7 @@ export const Home = () => {
         
         <div>
         HELLO
+        <button onClick={logout}> Logout </button>
         {listOfPosts.map((value, key) => {
          return(
             <div>
@@ -31,6 +37,5 @@ export const Home = () => {
         )
         })}
         </div>
-        
     )
 }

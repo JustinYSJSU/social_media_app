@@ -1,5 +1,7 @@
 //creating a SQL table. create model and export
 
+const { BLOB } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) =>{
     //define fields / columns for your table
     const Posts = sequelize.define("Posts", {
@@ -18,7 +20,12 @@ module.exports = (sequelize, DataTypes) =>{
         timestamp:{
             type: DataTypes.DATE,
             allowNull: false,
-        }
+        }, 
+        imagePath:{
+            type: DataTypes.STRING,
+            allowNull: true,
+            default: null,
+        },
     }
     )
     //"each post has many comments"
